@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Rates Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .rates-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .rates-table th, .rates-table td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .search-section {
+            margin-top: 20px;
+            position: relative;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            max-height: 200px;
+            overflow-y: auto;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        li {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">Bismillah Hardware</h1>
+        <div class="search-section">
+            <input type="text" id="search-input" placeholder="Search products..." oninput="suggestProducts()">
+            <button type="submit" onclick="searchProducts()">Search</button>
+            <ul id="suggestions"></ul>
+        </div>
+        <table class="rates-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Buying Rate</th>
+                    <th>Ask Rate</th>
+                    <th>Selling Rate</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+                <!-- Demo products -->
+                <tr class="product-row"><td>Partex cable(1.5)</td><td>26.11</td><td>33</td><td>30/29</td></tr>
+                <tr class="product-row"><td>Partex cable(1.3)</td><td>22.77</td><td>29</td><td>27/26</td></tr>
+                <tr class="product-row"><td>ABC Fan(56)</td><td>1740</td><td>1950</td><td>1900</td></tr>
+                 <tr class="product-row"><td>Energy Gold (36)</td><td>1550</td><td>1750</td><td>1700</td></tr>
+                 <tr class="product-row"><td>ABC Fan (36)</td><td>1640</td><td>1850</td><td>1800</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        var products = [
+            { name: "Partex cable(1.5)", buyingRate: "26.11", askRate: "33", sellingRate: "30/29" },
+            { name: "Partex cable(1.3)", buyingRate: "22.77", askRate: "29", sellingRate: "27/26" },
+            { name: "ABC Fan(56)", buyingRate: "1740", askRate: "1950", sellingRate: "1900" },
+            { name: "Energy Gold (36)", buyingRate: "1550", askRate: "1750", sellingRate: "1700" },
+            { name: "ABC Fan (36)", buyingRate: "1640", askRate: "1850", sellingRate: "1800" }
+
+        ];
+
+        function suggestProducts() {
+            var input = document.getElementById("search-input").value.toLowerCase();
+            var suggestions = document.getElementById("suggestions");
+            suggestions.innerHTML = "";
+
+            products.forEach(function(product) {
+                if (product.name.toLowerCase().startsWith(input)) {
+                    var li = document.createElement("li");
+                    li.textContent = product.name;
+                    li.onclick = function() {
+                        document.getElementById("search-input").value = product.name;
+                        searchProducts();
+                        suggestions.innerHTML = "";
+                    };
+                    suggestions.appendChild(li);
+                }
+            });
+        }
+
+        function searchProducts() {
+            var input = document.getElementById("search-input").value.toLowerCase();
+            var productList = document.querySelectorAll(".product-row");
+
+            productList.forEach(function(product) {
+                var productName = product.querySelector("td").textContent.toLowerCase();
+                if (productName === input) {
+                    product.style.display = "";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
